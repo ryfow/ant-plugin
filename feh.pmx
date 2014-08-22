@@ -1,0 +1,35 @@
+---
+name: feh
+description: feh
+keywords: feh
+type: Java
+documentation: feh
+images:
+- name: ryfow_jenkins_latest
+  source: ryfow/jenkins:latest
+  type: Default
+  ports:
+  - host_port: '9080'
+    container_port: '8080'
+    proto: TCP
+  volumes:
+  - host_path: "/var/jenkins"
+    container_path: "/var/jenkins_home"
+- name: ryfow_docker-jenkins-slave
+  source: ryfow/docker-jenkins-slave:latest
+  type: Default
+  links:
+  - service: ryfow_jenkins_latest
+    alias: jenkins
+  environment:
+  - variable: SLAVE_NAME
+    value: slave1
+- name: ryfow_docker-jenkins-slave_1
+  source: ryfow/docker-jenkins-slave:latest
+  type: Default
+  links:
+  - service: ryfow_jenkins_latest
+    alias: jenkins
+  environment:
+  - variable: SLAVE_NAME
+    value: slave2
